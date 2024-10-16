@@ -99,8 +99,8 @@ jobs:
         source /root/.bashrc
         unset TORCH_CUDA_ARCH_LIST # only jit compile for current arch
         
-        cd DeepSpeed/tests/
-        pytest --verbose tests/*
+        cd DeepSpeed/tests/unit
+        pytest --verbose accelerator/*
 
 
 

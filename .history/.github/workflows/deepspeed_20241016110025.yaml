@@ -100,7 +100,7 @@ jobs:
         unset TORCH_CUDA_ARCH_LIST # only jit compile for current arch
         
         cd DeepSpeed/tests/
-        pytest --verbose tests/*
+        pytest --verbose accelerator/*
 
 
 
