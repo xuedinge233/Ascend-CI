@@ -88,21 +88,21 @@ jobs:
   ubuntu-arm64-test:
       runs-on: ubuntu-latest
       steps:
-        - name: Checkout code
-          uses: actions/checkout@v3
+        - uses: actions/checkout@v4
   
-        - name: Run Docker on ARM64
-          uses: uraimo/run-on-arch-action@v2
+        
+        - uses: uraimo/run-on-arch-action@v2
+          name: Run Docker on ARM64
           with:
             arch: aarch64
-            distro: ubuntu20.04
-            env: |
-              DOCKER_CLI_EXPERIMENTAL=enabled
-            install: |
-              uname -a
+            distro: ubuntu22.04
+            # env: |
+            #   DOCKER_CLI_EXPERIMENTAL=enabled
+            install: |   
               apt-get update
               apt-get install -y docker.io
             run: |
+              uname -a
               echo "Building Docker image on ARM64"
               docker build -t ascendai/cann .
               docker run --rm ascendai/cann uname -m
