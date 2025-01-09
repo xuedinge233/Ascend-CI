@@ -99,8 +99,8 @@ jobs:
           docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
       - name: Run ARM64 Docker image
         run: |
-          docker pull ascendai/cann:latest
-          docker run --rm ascendai/cann:latest uname -m
+          docker pull arm64v8/ubuntu:latest
+          docker run --rm arm64v8/ubuntu:latest uname -m
     
     
     
