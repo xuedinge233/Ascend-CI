@@ -85,7 +85,22 @@ jobs:
           export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/aarch64-linux/devlib/:${LD_LIBRARY_PATH}
           cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 && cmake --build build -j $(nproc)
           
-    
+  ubuntu-arm64-test:
+      runs-on: ubuntu-latest
+      
+      steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
 
+      - name: Set up QEMU
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Run ARM64 Docker image
+        run: |
+          docker pull ascendai/cann:latest
+          docker run --rm ascendai/cann:latest uname -m
+    
     
     
