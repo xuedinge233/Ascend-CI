@@ -94,11 +94,12 @@ jobs:
         - name: Run Docker on ARM64
           uses: uraimo/run-on-arch-action@v2
           with:
-            arch: arm64
+            arch: aarch64
             distro: ubuntu20.04
             env: |
               DOCKER_CLI_EXPERIMENTAL=enabled
             install: |
+              uname -a
               apt-get update
               apt-get install -y docker.io
             run: |
