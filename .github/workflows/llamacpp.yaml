@@ -104,8 +104,8 @@ jobs:
             run: |
               uname -a
               echo "Building Docker image on ARM64"
-              docker build -t ascendai/cann .
-              docker run --rm ascendai/cann uname -m
+              docker pull ascendai/cann:latest
+              docker run --rm ascendai/cann:latest uname -m
     
     
     
