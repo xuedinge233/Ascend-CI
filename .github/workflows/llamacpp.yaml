@@ -87,20 +87,24 @@ jobs:
           
   ubuntu-arm64-test:
       runs-on: ubuntu-latest
-      
       steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
-
-      - name: Set up QEMU
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y qemu-user-static
-          docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Run ARM64 Docker image
-        run: |
-          docker pull arm64v8/ubuntu:latest
-          docker run --rm arm64v8/ubuntu:latest uname -m
+        - name: Checkout code
+          uses: actions/checkout@v3
+  
+        - name: Run Docker on ARM64
+          uses: uraimo/run-on-arch-action@v2
+          with:
+            arch: arm64
+            distro: ubuntu20.04
+            env: |
+              DOCKER_CLI_EXPERIMENTAL=enabled
+            install: |
+              apt-get update
+              apt-get install -y docker.io
+            run: |
+              echo "Building Docker image on ARM64"
+              docker build -t ascendai/cann .
+              docker run --rm ascendai/cann uname -m
     
     
     
