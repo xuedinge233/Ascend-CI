@@ -96,7 +96,7 @@ jobs:
 
       - name: Start ARM64 Container
         run: |
-          docker run -itd --name arm64-container --platform linux/arm64 ubuntu:20.04
+          docker run -d --name arm64-container --platform linux/arm64 ubuntu:20.04
 
       - name: Install llamacpp
         uses: nick-fields/retry@v3
@@ -107,6 +107,7 @@ jobs:
           command: |
             docker ps -a
             docker start arm64-container
+            docker ps -a
             docker exec -it arm64-container bash
             apt-get update -y
             apt-get install git cmake build-essential make -y   
