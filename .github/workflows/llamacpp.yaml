@@ -96,8 +96,8 @@ jobs:
           with:
             arch: aarch64
             distro: ubuntu22.04
-            # env: |
-            #   DOCKER_CLI_EXPERIMENTAL=enabled
+            env: |
+              DOCKER_CLI_EXPERIMENTAL=enabled
             install: |   
               apt-get update
               apt-get install -y docker.io
