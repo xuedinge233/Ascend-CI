@@ -93,22 +93,18 @@ jobs:
       - uses: uraimo/run-on-arch-action@v2
         name: Run Docker on ARM64
         with:
-          arch: aarch64
+          arch: armv7
           distro: ubuntu22.04
-          install: |   
-            # apt-get update
-            # apt-get install -y docker.io
+          install: |
             uname -a
-          #   docker pull ascendai/cann:latest
           base_image: --platform=linux/arm64 ascendai/cann:latest
           run: |
             uname -a
             apt-get update
             apt-get install git cmake build-essential make -y
             git clone https://github.com/ggerganov/llama.cpp.git
-
+            
             cd llama.cpp
-            bash ~/.bashrc
             export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/aarch64-linux/devlib/:${LD_LIBRARY_PATH}
             cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 && cmake --build build -j $(nproc)
     
