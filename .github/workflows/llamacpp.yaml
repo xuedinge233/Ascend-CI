@@ -96,16 +96,15 @@ jobs:
           arch: aarch64
           distro: ubuntu22.04
           install: |   
-            apt-get update
-            apt-get install -y docker.io
+            # apt-get update
+            # apt-get install -y docker.io
             uname -a
-            docker pull ascendai/cann:latest
+          #   docker pull ascendai/cann:latest
+          base_image: ascendci/cann:latest
           run: |
-            docker run -it ascendai/cann:latest bash
-            
             uname -a
             apt-get update
-            apt-get install git cmake build-essential make -y   
+            apt-get install git cmake build-essential make -y
             git clone https://github.com/ggerganov/llama.cpp.git
 
             cd llama.cpp
