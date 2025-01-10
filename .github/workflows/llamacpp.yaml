@@ -100,7 +100,7 @@ jobs:
             # apt-get install -y docker.io
             uname -a
           #   docker pull ascendai/cann:latest
-          base_image: ascendci/cann:latest
+          base_image: --platform=linux/arm64 ascendai/cann:latest #openeuler-python3.10-cann8.0.rc2.beta1
           run: |
             uname -a
             apt-get update
