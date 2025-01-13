@@ -41,5 +41,5 @@ jobs:
             
             git clone https://github.com/ggerganov/llama.cpp.git
             cd llama.cpp
-            cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 -DGGML_NATIVE=OFF #-DGGML_CPU_ARM_ARCH=armv8-a
+            cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=armv8-a
             cmake --build build
