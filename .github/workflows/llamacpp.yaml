@@ -97,7 +97,8 @@ jobs:
             cd llama.cpp
             mkdir build
             cd build
-            find / -name .bashrc
+            cat /root/.bashrc
             bash /root/.bashrc
+            echo $LD_LIBRARY_PATH
             export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/devlib/:${LD_LIBRARY_PATH}
             cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build }} -DGGML_CANN=on -DSOC_TYPE=${{ matrix.device }} && cmake --build . -j $(nproc)
