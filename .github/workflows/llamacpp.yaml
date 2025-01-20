@@ -77,6 +77,7 @@ jobs:
         matrix:
           cann: ['openeuler-python3.10-cann8.0.rc3.beta1']
           build: ['Release']
+          device: ['ascend910b3']
       container:
         image: ascendai/cann:${{ matrix.cann }}
       steps:
@@ -97,4 +98,4 @@ jobs:
             mkdir build
             cd build
             export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/devlib/:${LD_LIBRARY_PATH}
-            cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build }} -DGGML_CANN=on -DSOC_TYPE=ascend910b3 -DCMAKE_OSX_ARCHITECTURES=arm64 && cmake --build . -j $(nproc)
+            cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build }} -DGGML_CANN=on -DSOC_TYPE=${{ matrix.device }} && cmake --build . -j $(nproc)
