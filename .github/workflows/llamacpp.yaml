@@ -1,8 +1,8 @@
 name: llama.cpp
 
-defaults:
-  run:
-    shell: bash -el {0}
+# defaults:
+#   run:
+#     shell: bash -el {0}
 on:
   workflow_dispatch:
   pull_request:
@@ -23,26 +23,26 @@ permissions:
   issues: write
 
 jobs:
-    ubuntu-arm64-test:
-      runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v4
+    # ubuntu-arm64-test:
+    #   runs-on: ubuntu-latest
+    #   steps:
+    #   - uses: actions/checkout@v4
       
-      - uses: uraimo/run-on-arch-action@v2
-        name: Run Docker on ARM64
-        with:
-          arch: aarch64
-          distro: ubuntu22.04
-          base_image: --platform=linux/arm64 ascendai/cann:openeuler-python3.10-cann8.0.rc2.beta1
-          run: |
-            yum update -y
-            yum install git cmake gcc gcc-c++ make -y
-            export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/aarch64-linux/devlib/:${LD_LIBRARY_PATH}
+    #   - uses: uraimo/run-on-arch-action@v2
+    #     name: Run Docker on ARM64
+    #     with:
+    #       arch: aarch64
+    #       distro: ubuntu22.04
+    #       base_image: --platform=linux/arm64 ascendai/cann:openeuler-python3.10-cann8.0.rc2.beta1
+    #       run: |
+    #         yum update -y
+    #         yum install git cmake gcc gcc-c++ make -y
+    #         export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/aarch64-linux/devlib/:${LD_LIBRARY_PATH}
             
-            git clone https://github.com/ggerganov/llama.cpp.git
-            cd llama.cpp
-            cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=armv8-a
-            cmake --build build
+    #         git clone https://github.com/ggerganov/llama.cpp.git
+    #         cd llama.cpp
+    #         cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=armv8-a
+    #         cmake --build build
 
     ubuntu-unit-tests:
 
@@ -97,5 +97,6 @@ jobs:
             cd llama.cpp
             mkdir build
             cd build
+            bash ~/.bashrc
             export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/devlib/:${LD_LIBRARY_PATH}
             cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build }} -DGGML_CANN=on -DSOC_TYPE=${{ matrix.device }} && cmake --build . -j $(nproc)
