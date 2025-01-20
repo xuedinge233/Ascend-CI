@@ -72,6 +72,9 @@ jobs:
             cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 && cmake --build build -j $(nproc)
 
     unit-tests:
+      defaults:
+        run:
+         shell: bash -el {0}
       runs-on: ubuntu-latest
       strategy:
         matrix:
@@ -92,8 +95,7 @@ jobs:
             yum update -y
             yum install git cmake gcc gcc-c++ make -y  
             git clone https://github.com/ggerganov/llama.cpp.git
-            . /usr/local/Ascend/ascend-toolkit/set_env.sh
-            export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/devlib/:${LD_LIBRARY_PATH}
+            # export LD_LIBRARY_PATH=/usr/local/Ascend/ascend-toolkit/latest/lib64:/usr/local/Ascend/ascend-toolkit/latest/x86_64-linux/devlib/:${LD_LIBRARY_PATH}
       - name: Build
         run: |
             cd llama.cpp
