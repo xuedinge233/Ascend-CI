@@ -58,6 +58,7 @@ jobs:
         image: ascendai/cann:${{ matrix.cann }}
       steps:
       - name: Dependencies
+        run: |
             yum update -y
             yum install git cmake gcc gcc-c++ make -y  
 
