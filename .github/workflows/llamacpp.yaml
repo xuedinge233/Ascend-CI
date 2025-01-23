@@ -97,5 +97,5 @@ jobs:
             cd llama.cpp
             mkdir build
             cd build
-            # export LD_LIBRARY_PATH${ASCEND_TOOLKIT_HOME}/lib64:${ASCEND_TOOLKIT_HOME}/$(uname -m)-linux/devlib/:${LD_LIBRARY_PATH}
+            export LD_LIBRARY_PATH${ASCEND_TOOLKIT_HOME}/lib64:${ASCEND_TOOLKIT_HOME}/$(uname -m)-linux/devlib/:${LD_LIBRARY_PATH}
             cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build }} -DGGML_CANN=on -DSOC_TYPE=${{ matrix.device }} && cmake --build . -j $(nproc)
