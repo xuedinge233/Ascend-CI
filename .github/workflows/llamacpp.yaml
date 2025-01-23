@@ -44,6 +44,37 @@ jobs:
     #         cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 -DGGML_NATIVE=OFF -DGGML_CPU_ARM_ARCH=armv8-a
     #         cmake --build build
 
+    unit-tests:
+      runs-on: ubuntu-24.04-arm
+      strategy:
+        matrix:
+          cann:
+            - 'openeuler-python3.10-cann8.0.rc3.beta1'
+          build:
+            - 'Release'
+          device:
+            - 'ascend910b3'
+      container:
+        image: ascendai/cann:${{ matrix.cann }}
+      steps:
+      - name: Dependencies
+            yum update -y
+            yum install git cmake gcc gcc-c++ make -y  
+
+      - name: Checkout llama.cpp
+        uses: actions/checkout@v4
+        with:
+          repository: ggerganov/llama.cpp
+          path: llama.cpp
+            
+      - name: Build
+        run: |
+            cd llama.cpp
+            mkdir build
+            cd build
+            export LD_LIBRARY_PATH=${ASCEND_TOOLKIT_HOME}/lib64:${ASCEND_TOOLKIT_HOME}/$(uname -m)-linux/devlib/:${LD_LIBRARY_PATH}
+            cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build }} -DGGML_CANN=on -DSOC_TYPE=${{ matrix.device }} && cmake --build . -j $(nproc)
+
     ubuntu-unit-tests:
       runs-on: ubuntu-latest
   
@@ -70,32 +101,4 @@ jobs:
             export LD_LIBRARY_PATH=${ASCEND_TOOLKIT_HOME}/$(uname -m)-linux/devlib/:${LD_LIBRARY_PATH}
             cmake -B build -DCMAKE_BUILD_TYPE=release -DGGML_CANN=on -DSOC_TYPE=ascend910b3 && cmake --build build -j $(nproc)
 
-    unit-tests:
-      runs-on: ubuntu-24.04-arm
-      strategy:
-        matrix:
-          cann: ['openeuler-python3.10-cann8.0.rc3.beta1']
-          build: ['Release']
-          device: ['ascend910b3']
-      container:
-        image: ascendai/cann:${{ matrix.cann }}
-      steps:
-      - uses: actions/checkout@v4
-      - name: Install llamacpp
-        uses: nick-fields/retry@v3
-        with:
-          timeout_minutes: 30
-          max_attempts: 3
-          retry_on: error
-          command: |
-            yum update -y
-            yum install git cmake gcc gcc-c++ make -y  
-            git clone https://github.com/ggerganov/llama.cpp.git
-            
-      - name: Build
-        run: |
-            cd llama.cpp
-            mkdir build
-            cd build
-            export LD_LIBRARY_PATH${ASCEND_TOOLKIT_HOME}/lib64:${ASCEND_TOOLKIT_HOME}/$(uname -m)-linux/devlib/:${LD_LIBRARY_PATH}
-            cmake .. -DCMAKE_BUILD_TYPE=${{ matrix.build }} -DGGML_CANN=on -DSOC_TYPE=${{ matrix.device }} && cmake --build . -j $(nproc)
+
