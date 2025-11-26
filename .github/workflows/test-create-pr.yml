@@ -16,7 +16,7 @@ jobs:
     
         - name: change something
           run: |
-            echo "test create pr" > test.txt
+            echo "test create pr 1" > test.txt
         
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v5
