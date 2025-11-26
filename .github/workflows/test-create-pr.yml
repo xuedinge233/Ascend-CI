@@ -1,0 +1,31 @@
+name: test-create-pr
+
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - "test-create-pr"
+
+jobs:
+    test-create-pr:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+    
+        - name: change something
+          run: |
+            echo "test create pr" > test.txt
+        
+        - name: Create Pull Request
+          uses: peter-evans/create-pull-request@v5
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            base: ${{ github.ref_name }}
+            commit-message: "test create pr"
+            branch: test-create-pr/${{ github.run_id }}
+            add-paths: test.txt
+            title: "Test Create PR"
+            body: "This is a test pull request created by GitHub Actions."
+            
+
