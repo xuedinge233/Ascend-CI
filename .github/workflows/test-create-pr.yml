@@ -23,7 +23,7 @@ jobs:
             token: ${{ secrets.GITHUB_TOKEN }}
             base: ${{ github.ref_name }}
             commit-message: "test create pr"
-            branch: test-create-pr/${{ github.run_id }}
+            branch: test-pr/${{ github.run_id }}
             add-paths: test.txt
             title: "Test Create PR"
             body: "This is a test pull request created by GitHub Actions."
