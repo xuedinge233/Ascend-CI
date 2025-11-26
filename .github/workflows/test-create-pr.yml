@@ -9,6 +9,7 @@ on:
 jobs:
     test-create-pr:
         runs-on: ubuntu-latest
+        environment: test
         steps:
         - name: Checkout code
           uses: actions/checkout@v4
@@ -20,7 +21,7 @@ jobs:
         - name: Create Pull Request
           uses: peter-evans/create-pull-request@v5
           with:
-            token: ${{ secrets.GITHUB_TOKEN }}
+            token: ${{ secrets.bot_key }}
             base: ${{ github.ref_name }}
             commit-message: "test create pr"
             branch: test-pr/${{ github.run_id }}
