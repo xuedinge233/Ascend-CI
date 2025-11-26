@@ -19,7 +19,7 @@ jobs:
             echo "test create pr 1" > test.txt
         
         - name: Create Pull Request
-          uses: peter-evans/create-pull-request@v5
+          uses: peter-evans/create-pull-request@v7
           with:
             token: ${{ secrets.bot_key }}
             base: ${{ github.ref_name }}
